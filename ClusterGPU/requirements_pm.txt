@@ -1,0 +1,11 @@
+scikit-learn
+numpy
+pandas
+matplotlib
+seaborn
+imblearn
+torch
+jupyter
+xgboost
+pykan
+tqdm
