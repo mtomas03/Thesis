@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=Image_Class_Jupyter
+#SBATCH --job-name=Image_Class
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user=martin.tomassi@studio.unibo.it
 #SBATCH --time=120:00:00
