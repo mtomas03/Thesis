@@ -9,18 +9,43 @@
 #SBATCH --mem=60G
 #SBATCH --partition=l40
 #SBATCH --output=output_jupyter_exec_job_%j.txt
+#SBATCH --error=error_jupyter_exec_job_%j.txt
 #SBATCH --chdir=/scratch.hpc/martin.tomassi
 #SBATCH --gres=gpu:1
+
+echo "Starting job at $(date)"
+echo "--------------------------"
 
 export JUPYTER_CONFIG_DIR="/scratch.hpc/martin.tomassi/jupyter_config_for_job_$SLURM_JOB_ID"
 export MPLCONFIGDIR="/scratch.hpc/martin.tomassi/matplotlib_cache_for_job_$SLURM_JOB_ID"
 mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$MPLCONFIGDIR"
 
-source venv_prj1/bin/activate
-jupyter nbconvert --to notebook --execute image_class.ipynb --output image_class_trained.ipynb
+source venv_image/bin/activate
+if [ $? -ne 0 ]; then
+    echo "ERROR: Failed to activate virtual environment. Exiting."
+    exit 1
+fi
+echo "Virtual environment activated successfully."
+echo "--------------------------"
+
+echo "Starting notebook execution with detailed logging..."
+jupyter nbconvert --to notebook --execute --log-level=DEBUG --allow-errors image_class.ipynb --output image_class_trained.ipynb > notebook_debug_%j.log 2>&1
+
+if [ $? -ne 0 ]; then
+    echo "ERROR: Notebook execution failed. Check notebook_debug_*.log for details."
+fi
+echo "Notebook execution finished."
+echo "--------------------------"
+
+echo "Starting HTML conversion..."
 jupyter nbconvert --to html image_class_trained.ipynb
+echo "HTML conversion finished."
+echo "--------------------------"
+
 deactivate
 
+echo "Cleaning up temporary files..."
 rm -rf "$JUPYTER_CONFIG_DIR"
 rm -rf "$MPLCONFIGDIR"
+echo "Job finished at $(date)"
