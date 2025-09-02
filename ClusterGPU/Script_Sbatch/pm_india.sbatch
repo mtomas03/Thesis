@@ -18,8 +18,8 @@ mkdir -p "$JUPYTER_CONFIG_DIR"
 mkdir -p "$MPLCONFIGDIR"
 
 source venv_pm/bin/activate
-jupyter nbconvert --to notebook --execute 4_Training_Evaluation_India.ipynb --output 4_Training_Evaluation_India_trained.ipynb
-jupyter nbconvert --to html 4_Training_Evaluation_India_trained.ipynb
+jupyter nbconvert --to notebook --execute Training_Evaluation_India.ipynb --output Training_Evaluation_India_trained.ipynb
+jupyter nbconvert --to html Training_Evaluation_India_trained.ipynb
 deactivate
 
 rm -rf "$JUPYTER_CONFIG_DIR"
