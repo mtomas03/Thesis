@@ -1,0 +1,3 @@
+[submodule "Thesis_Paper"]
+	path = Thesis_Paper
+	url = git@github.com:mtomas03/Thesis_Paper.git
